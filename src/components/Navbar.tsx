@@ -4,12 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { Search, User, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import RegisterModal from "./RegisterModal";
+import LoginModal from "./LoginModal";
 import SearchResults from "./SearchResults";
 
 const EPIC_FIX_LOGO = "https://cdn.poehali.dev/files/66777d96-7cbd-4f89-8e6f-96c53af6f6b3.png";
 
 const Navbar = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
@@ -21,6 +23,16 @@ const Navbar = () => {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setIsSearchOpen(false);
     }
+  };
+
+  const handleLoginClick = () => {
+    setIsLoginOpen(true);
+    setIsRegisterOpen(false);
+  };
+
+  const handleRegisterClick = () => {
+    setIsRegisterOpen(true);
+    setIsLoginOpen(false);
   };
 
   return (
@@ -84,15 +96,31 @@ const Navbar = () => {
             />
           </div>
           
-          <Button 
-            className="bg-epicfix-green hover:bg-epicfix-green/90 text-white"
-            onClick={() => setIsRegisterOpen(true)}
-          >
-            <User size={18} className="mr-2" />
-            <span className="hidden sm:inline">Войти</span>
-          </Button>
+          <div className="flex space-x-2">
+            <Button 
+              variant="outline" 
+              className="border-epicfix-green text-epicfix-green hover:bg-epicfix-green hover:text-white"
+              onClick={handleLoginClick}
+            >
+              Войти
+            </Button>
+            
+            <Button 
+              className="bg-epicfix-green hover:bg-epicfix-green/90 text-white"
+              onClick={handleRegisterClick}
+            >
+              <User size={18} className="mr-2" />
+              <span className="hidden sm:inline">Регистрация</span>
+            </Button>
+          </div>
         </div>
       </div>
+      
+      <LoginModal 
+        isOpen={isLoginOpen} 
+        onClose={() => setIsLoginOpen(false)}
+        onSwitchToRegister={handleRegisterClick}
+      />
       
       <RegisterModal 
         isOpen={isRegisterOpen} 

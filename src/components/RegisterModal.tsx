@@ -45,7 +45,7 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
         
         <div className="mb-6 text-center">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-epicfix-green flex items-center justify-center">
-            <User size={28} className="text-white" />
+            <img src="https://cdn.poehali.dev/files/66777d96-7cbd-4f89-8e6f-96c53af6f6b3.png" alt="Epic Fix Logo" className="w-10 h-10" />
           </div>
           <h2 className="text-2xl font-bold text-white">Регистрация</h2>
           <p className="text-gray-400 mt-2">Создайте аккаунт для доступа ко всем возможностям EpicFix</p>
@@ -118,10 +118,6 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
               >
                 Создать аккаунт
               </Button>
-            </div>
-            
-            <div className="text-center text-sm text-gray-400 mt-4">
-              <p>Уже есть аккаунт? <button type="button" className="text-epicfix-green hover:underline">Войти</button></p>
             </div>
           </div>
         </form>
