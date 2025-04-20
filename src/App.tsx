@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import GameDetails from "./pages/GameDetails";
 import Categories from "./pages/Categories";
 import CategoryDetails from "./pages/CategoryDetails";
+import Search from "./pages/Search";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/game/:id" element={<GameDetails />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryName" element={<CategoryDetails />} />
+          <Route path="/search" element={<Search />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

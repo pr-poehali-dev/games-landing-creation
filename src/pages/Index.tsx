@@ -1,4 +1,6 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import GameCard from "@/components/GameCard";
 import { games } from "@/data/gamesData";
@@ -7,7 +9,18 @@ const genres = ["Все", "Экшен", "Приключения", "RPG", "Фэн
 
 const Index = () => {
   const [activeGenre, setActiveGenre] = useState("Все");
+  const [filteredGames, setFilteredGames] = useState(games);
+  const navigate = useNavigate();
   const featuredGame = games[0]; // Game of Thrones as featured
+
+  useEffect(() => {
+    if (activeGenre === "Все") {
+      setFilteredGames(games);
+    } else {
+      const filtered = games.filter(game => game.genre === activeGenre);
+      setFilteredGames(filtered);
+    }
+  }, [activeGenre]);
 
   return (
     <div className="min-h-screen bg-epicfix-dark text-white">
@@ -31,7 +44,10 @@ const Index = () => {
               <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
                 {featuredGame.description.slice(0, 120)}...
               </p>
-              <button className="bg-epicfix-red hover:bg-epicfix-red/90 text-white px-8 py-3 rounded-md font-semibold transition-colors">
+              <button 
+                onClick={() => navigate(`/game/${featuredGame.id}`)}
+                className="bg-epicfix-red hover:bg-epicfix-red/90 text-white px-8 py-3 rounded-md font-semibold transition-colors"
+              >
                 Играть сейчас
               </button>
             </div>
@@ -61,28 +77,37 @@ const Index = () => {
           </div>
         </div>
         
-        {/* Popular Games Section */}
+        {/* Games Section */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Популярные игры</h2>
-          <div className="game-grid">
-            {games.slice(0, 5).map((game) => (
-              <GameCard 
-                key={game.id}
-                id={game.id}
-                title={game.title}
-                image={game.image}
-                year={game.year}
-                rating={game.rating}
-                genre={game.genre}
-              />
-            ))}
-          </div>
+          <h2 className="text-2xl font-bold mb-6">
+            {activeGenre === "Все" ? "Популярные игры" : `Игры в жанре ${activeGenre}`}
+          </h2>
+          
+          {filteredGames.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {filteredGames.map((game) => (
+                <GameCard 
+                  key={game.id}
+                  id={game.id}
+                  title={game.title}
+                  image={game.image}
+                  year={game.year}
+                  rating={game.rating}
+                  genre={game.genre}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 bg-epicfix-darkgray/50 rounded-lg">
+              <p className="text-gray-400">Игры в жанре {activeGenre} не найдены</p>
+            </div>
+          )}
         </div>
         
         {/* New Releases */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6">Новые релизы</h2>
-          <div className="game-grid">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {games.slice(1, 6).reverse().map((game) => (
               <GameCard 
                 key={game.id}
